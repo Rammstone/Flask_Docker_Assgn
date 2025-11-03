@@ -1,5 +1,20 @@
-__pycache__/
+# Ignore Python virtual environments
 venv/
+__pycache__/
 *.pyc
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
+
+# Ignore compiled and build artifacts
 *.log
-node_modules/
+*.egg-info/
+dist/
+build/
+
+# Ignore Docker cache files
+*.pid
