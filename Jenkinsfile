@@ -9,9 +9,12 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/yourusername/flask-jenkins-docker.git'
+                git branch: 'main',
+                    url: 'https://github.com/Rammstone/Flask_Docker_Assgn.git',
+                    credentialsId: 'github-token'
             }
         }
+
 
         stage('Build Docker Image') {
             steps {
