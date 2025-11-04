@@ -18,20 +18,20 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                bat 'docker build -t $IMAGE_NAME .'
             }
         }
 
         stage('Run Container for Testing') {
             steps {
-                sh 'docker run -d -p 5000:5000 --name test-container $IMAGE_NAME'
-                sh 'sleep 5'
-                sh 'curl -f http://localhost:5000 || (echo "Test failed!" && exit 1)'
+                bat 'docker run -d -p 5000:5000 --name test-container $IMAGE_NAME'
+                bat 'sleep 5'
+                bat 'curl -f http://localhost:5000 || (echo "Test failed!" && exit 1)'
             }
             post {
                 always {
-                    sh 'docker stop test-container || true'
-                    sh 'docker rm test-container || true'
+                    bat 'docker stop test-container || true'
+                    bat 'docker rm test-container || true'
                 }
             }
         }
@@ -39,8 +39,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-                    sh 'docker push $IMAGE_NAME'
+                    bat 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
+                    bat 'docker push $IMAGE_NAME'
                 }
             }
         }
